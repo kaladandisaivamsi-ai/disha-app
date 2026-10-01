@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en" id="html-root">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Disha 2.0: Digital Sakhi - Emergency & Welfare Guide</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .light-theme { background-color: #F8F9FA; color: #1F2937; }
+        .dark-theme { background-color: #0F172A; color: #F1F5F9; }
+    </style>
+</head>
+<body class="light-theme min-h-screen flex flex-col justify-between font-sans antialiased transition-colors duration-300" id="body-theme">
+
+    <!-- Top Header Bar -->
+    <header class="max-w-md w-full mx-auto p-4 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <div class="bg-rose-600 text-white p-2 rounded-2xl shadow-sm">
+                <i class="fa-solid fa-hands-holding-child text-base"></i>
+            </div>
+            <div>
+                <h1 class="text-sm font-black tracking-tight">Disha 2.0</h1>
+                <p class="text-[10px] text-slate-500 dark:text-slate-400">మీ డిజిటల్ స్నేహితురాలు (Offline Mode)</p>
+            </div>
+        </div>
+
+        <div class="flex items-center space-x-2">
+            <!-- Theme Toggle -->
+            <button onclick="toggleTheme()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 w-9 h-9 rounded-xl flex items-center justify-center shadow-sm">
+                <i id="theme-icon" class="fa-solid fa-moon text-xs text-slate-700 dark:text-amber-400"></i>
+            </button>
+
+            <!-- Language Dropdown -->
+            <select id="lang-select" onchange="changeLanguage()" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-semibold rounded-xl px-2.5 py-2 shadow-sm focus:outline-none">
+                <option value="Telugu">తెలుగు</option>
+                <option value="Hindi">हिंदी</option>
+                <option value="Tamil">தமிழ்</option>
+                <option value="Kannada">ಕನ್ನಡ</option>
+                <option value="Malayalam">മലയാളം</option>
+                <option value="Marathi">मराठी</option>
+                <option value="Bengali">বাংলা</option>
+                <option value="Gujarati">ગુજરાતી</option>
+                <option value="Punjabi">ਪੰਜਾਬੀ</option>
+                <option value="Odia">ଓଡ଼ିଆ</option>
+                <option value="English">English</option>
+            </select>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-md w-full mx-auto px-4 flex-1 flex flex-col space-y-3 pb-6">
+
+        <!-- 1. Red SOS Button Card -->
+        <button onclick="triggerSOS()" class="w-full bg-red-600 hover:bg-red-700 text-white p-4 rounded-2xl shadow-lg text-left transition transform active:scale-98 flex items-center justify-between">
+            <div class="space-y-0.5">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-triangle-exclamation text-lg"></i>
+                    <span class="text-base font-extrabold tracking-wide">Get help now</span>
+                </div>
+                <p class="text-xs text-red-100 font-medium">Message 112 and trusted person instantly</p>
+            </div>
+            <div class="bg-white/20 p-2.5 rounded-xl">
+                <i class="fa-solid fa-arrow-right text-sm"></i>
+            </div>
+        </button>
+
+        <!-- 2. Yellow Voice Assistant Card -->
+        <button onclick="triggerVoiceAssistant()" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 p-4 rounded-2xl shadow-lg text-left transition transform active:scale-98 flex items-center justify-between">
+            <div class="space-y-0.5">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-microphone text-lg"></i>
+                    <span class="text-base font-extrabold tracking-wide">Speak to Disha</span>
+                </div>
+                <p class="text-xs text-amber-950 font-medium">Tell us what is happening in your voice</p>
+            </div>
+            <div class="bg-black/10 p-2.5 rounded-xl">
+                <i class="fa-solid fa-volume-high text-sm"></i>
+            </div>
+        </button>
+
+        <!-- 3. Blue Map & Nearest Services Card -->
+        <button onclick="openNearestMap()" class="w-full bg-sky-600 hover:bg-sky-700 text-white p-4 rounded-2xl shadow-lg text-left transition transform active:scale-98 flex items-center justify-between">
+            <div class="space-y-0.5">
+                <div class="flex items-center space-x-2">
+                    <i class="fa-solid fa-location-dot text-lg"></i>
+                    <span class="text-base font-extrabold tracking-wide">Nearest police station & hospital</span>
+                </div>
+                <p class="text-xs text-sky-100 font-medium">Open live Google Maps for directions</p>
+            </div>
+            <div class="bg-white/20 p-2.5 rounded-xl">
+                <i class="fa-solid fa-map-location-dot text-sm"></i>
+            </div>
+        </button>
+
+        <!-- Dynamic Assistant Dialog Card -->
+        <div class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-4 shadow-sm relative space-y-3 mt-1">
+            <div class="flex items-center space-x-3">
+                <div id="dynamic-icon-container" class="w-12 h-12 bg-rose-100 dark:bg-slate-700 rounded-full flex items-center justify-center text-2xl">
+                    🧕
+                </div>
+                <div class="flex-1">
+                    <p id="assistant-greeting" class="text-sm font-bold text-slate-800 dark:text-slate-100 leading-snug">
+                        నమస్కారం అక్కా! మీకు ఏ సహాయం కావాలి? (Select a button above or speak)
+                    </p>
+                </div>
+            </div>
+
+            <!-- Binary Yes/No Choice Container -->
+            <div id="binary-choices" class="hidden grid grid-cols-2 gap-2 pt-1">
+                <button onclick="handleBinaryChoice('yes')" class="bg-emerald-600 hover:bg-emerald-500 text-white py-2.5 px-3 rounded-xl font-bold text-xs shadow flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-circle-check"></i> అవును (Yes)
+                </button>
+                <button onclick="handleBinaryChoice('no')" class="bg-rose-600 hover:bg-rose-500 text-white py-2.5 px-3 rounded-xl font-bold text-xs shadow flex items-center justify-center gap-1.5">
+                    <i class="fa-solid fa-circle-xmark"></i> కాదు (No)
+                </button>
+            </div>
+        </div>
+
+        <!-- Chat / Response Log Feed -->
+        <div id="chat-feed" class="hidden bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-3 shadow-sm max-h-32 overflow-y-auto space-y-2 text-xs">
+        </div>
+
+        <!-- Direct Emergency Phone Numbers Section -->
+        <div class="space-y-1.5 pt-1">
+            <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide px-1">📞 డైరెక్ట్ ఫోన్ నంబర్లు (Emergency Phone Numbers):</p>
+            <div class="grid grid-cols-2 gap-2">
+                <a href="tel:112" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl shadow-sm flex items-center justify-between hover:bg-rose-50">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-lg">🚨</span>
+                        <div>
+                            <p class="text-xs font-bold text-slate-800 dark:text-slate-100">అత్యవసర (Emergency)</p>
+                            <p class="text-xs text-red-600 font-extrabold">112</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-phone text-xs text-red-600"></i>
+                </a>
+                <a href="tel:181" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl shadow-sm flex items-center justify-between hover:bg-rose-50">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-lg">👩</span>
+                        <div>
+                            <p class="text-xs font-bold text-slate-800 dark:text-slate-100">మహిళా హెల్ప్‌లైన్</p>
+                            <p class="text-xs text-rose-600 font-extrabold">181</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-phone text-xs text-rose-600"></i>
+                </a>
+                <a href="tel:108" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl shadow-sm flex items-center justify-between hover:bg-rose-50">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-lg">🚑</span>
+                        <div>
+                            <p class="text-xs font-bold text-slate-800 dark:text-slate-100">అంబులెన్స్</p>
+                            <p class="text-xs text-emerald-600 font-extrabold">108</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-phone text-xs text-emerald-600"></i>
+                </a>
+                <a href="tel:100" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl shadow-sm flex items-center justify-between hover:bg-rose-50">
+                    <div class="flex items-center space-x-2">
+                        <span class="text-lg">👮</span>
+                        <div>
+                            <p class="text-xs font-bold text-slate-800 dark:text-slate-100">పోలీస్</p>
+                            <p class="text-xs text-blue-600 font-extrabold">100</p>
+                        </div>
+                    </div>
+                    <i class="fa-solid fa-phone text-xs text-blue-600"></i>
+                </a>
+            </div>
+        </div>
+
+        <!-- Welfare Schemes Quick Grid -->
+        <div class="space-y-1.5 pt-1">
+            <p class="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wide px-1">🏛 ప్రభుత్వ పథకాలు (Welfare Schemes):</p>
+            <div class="grid grid-cols-2 gap-2">
+                <button onclick="selectScheme('Maternity Support Scheme')" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl text-left shadow-sm flex items-center space-x-2.5">
+                    <span class="text-lg bg-rose-50 dark:bg-slate-700 p-2 rounded-lg">🤰</span>
+                    <div>
+                        <p class="text-xs font-bold text-slate-800 dark:text-slate-100">గర్భివతి సహాయం</p>
+                        <p class="text-[9px] text-rose-600 dark:text-rose-400 font-semibold">₹5,000 సహాయం</p>
+                    </div>
+                </button>
+                <button onclick="selectScheme('Free Ration Card Scheme')" class="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-2.5 rounded-xl text-left shadow-sm flex items-center space-x-2.5">
+                    <span class="text-lg bg-amber-50 dark:bg-slate-700 p-2 rounded-lg">🍚</span>
+                    <div>
+                        <p class="text-xs font-bold text-slate-800 dark:text-slate-100">రేషన్ కార్డు</p>
+                        <p class="text-[9px] text-amber-600 dark:text-amber-400 font-semibold">ఉచిత బియ్యం పథకం</p>
+                    </div>
+                </button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer Helplines Bar -->
+    <footer class="bg-white dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 py-2 px-4 text-center text-xs text-slate-500 dark:text-slate-400 flex justify-around">
+        <span>📞 Helpline: <a href="tel:181" class="font-bold text-rose-600 underline">181</a></span>
+        <span>🚨 Emergency: <a href="tel:112" class="font-bold text-rose-600 underline">112</a></span>
+    </footer>
+
+    <!-- JavaScript Logic (Mock Engine - No API Limits) -->
+    <script>
+        let currentLang = "Telugu";
+        let selectedScheme = "Emergency & Welfare Support";
+        let lastSpokenText = "నమస్కారం అక్కా! మీకు ఏ సహాయం కావాలి? పైనున్న బటన్ నొక్కండి.";
+        let isDarkMode = localStorage.getItem('disha_dark_mode') === 'true';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            applyTheme();
+            speak(lastSpokenText);
+        });
+
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            localStorage.setItem('disha_dark_mode', isDarkMode);
+            applyTheme();
+        }
+
+        function applyTheme() {
+            const body = document.getElementById('body-theme');
+            const html = document.getElementById('html-root');
+            const icon = document.getElementById('theme-icon');
+            if (isDarkMode) {
+                body.className = "dark-theme min-h-screen flex flex-col justify-between font-sans antialiased transition-colors duration-300";
+                html.classList.add('dark');
+                icon.className = "fa-solid fa-sun text-xs text-amber-400";
+            } else {
+                body.className = "light-theme min-h-screen flex flex-col justify-between font-sans antialiased transition-colors duration-300";
+                html.classList.remove('dark');
+                icon.className = "fa-solid fa-moon text-xs text-slate-700";
+            }
+        }
+
+        function changeLanguage() {
+            currentLang = document.getElementById('lang-select').value;
+            const greetings = {
+                "Telugu": "నమస్కారం అక్కా! మీకు ఏ సహాయం కావాలి?",
+                "Hindi": "नमस्ते दीदी! आपको क्या सहायता चाहिए?",
+                "Tamil": "வணக்கம் அக்கா! உங்களுக்கு என்ன உதவி வேண்டும்?",
+                "Kannada": "ನಮಸ್ಕಾರ ಅಕ್ಕ! ನಿಮಗೆ ಯಾವ ಸಹಾಯ ಬೇಕು?",
+                "Malayalam": "നമസ്കാരം അക്ക! നിങ്ങൾക്ക് എന്ത് സഹായമാണ് വേണ്ടത്?",
+                "Marathi": "नमस्कार ताई! तुम्हाला कोणती मदत हवी आहे?",
+                "Bengali": "নমস্কার দিদি! আপনার কী সাহায্য চাই?",
+                "Gujarati": "નમસ્તે બેન! તમને શી મદદ જોઈએ છે?",
+                "Punjabi": "ਸਤਿ ਸ੍ਰੀ ਅਕਾਲ ਜੀ! ਤੁਹਾਨੂੰ ਕਿਹੜੀ ਮਦਦ ਚਾਹੀਦੀ ਹੈ?",
+                "Odia": "ନମସ୍କାର ଭଉଣୀ! ଆପଣଙ୍କୁ କେଉଁ ସାହାଯ୍ୟ ଦରକାର?",
+                "English": "Hello sister! What help do you need?"
+            };
+            lastSpokenText = greetings[currentLang] || greetings["English"];
+            document.getElementById('assistant-greeting').textContent = lastSpokenText;
+            speak(lastSpokenText);
+        }
+
+        function triggerSOS() {
+            const msg = "SOS triggered! Calling emergency number 112.";
+            appendFeed(msg, true);
+            speak("Emergency alert sent to 112.");
+            window.location.href = "tel:112";
+        }
+
+        function triggerVoiceAssistant() {
+            speak("Listening to your voice. Please speak.");
+            if ('webkitSpeechRecognition' in window) {
+                const recognition = new webkitSpeechRecognition();
+                recognition.lang = currentLang === 'Telugu' ? 'te-IN' : 'hi-IN';
+                recognition.onresult = (event) => {
+                    const text = event.results[0][0].transcript;
+                    appendFeed(text, true);
+                    processMockResponse(text);
+                };
+                recognition.start();
+            } else {
+                processMockResponse("General Help");
+            }
+        }
+
+        function openNearestMap() {
+            speak("Opening nearest police station and hospital locations on map.");
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+                    window.open(`https://www.google.com/maps/search/police+station+and+hospital/@${lat},${lon},14z`, '_blank');
+                }, () => {
+                    window.open(`https://www.google.com/maps/search/police+station+and+hospital+near+me`, '_blank');
+                });
+            } else {
+                window.open(`https://www.google.com/maps/search/police+station+and+hospital+near+me`, '_blank');
+            }
+        }
+
+        function selectScheme(schemeName) {
+            selectedScheme = schemeName;
+            processMockResponse(`Selected scheme: ${schemeName}`);
+        }
+
+        function speak(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            const langMap = {
+                "Telugu": 'te-IN', "Hindi": 'hi-IN', "Tamil": 'ta-IN', "Kannada": 'kn-IN',
+                "Malayalam": 'ml-IN', "Marathi": 'mr-IN', "Bengali": 'bn-IN', "Gujarati": 'gu-IN',
+                "Punjabi": 'pa-IN', "Odia": 'or-IN', "English": 'en-IN'
+            };
+            utterance.lang = langMap[currentLang] || 'en-IN';
+            window.speechSynthesis.speak(utterance);
+            lastSpokenText = text;
+        }
+
+        function appendFeed(text, isUser) {
+            const feed = document.getElementById('chat-feed');
+            feed.classList.remove('hidden');
+            const div = document.createElement('div');
+            div.className = isUser ? "text-right bg-rose-50 dark:bg-slate-700 p-2 rounded-lg" : "text-left bg-slate-50 dark:bg-slate-700 p-2 rounded-lg";
+            div.textContent = text;
+            feed.appendChild(div);
+            feed.scrollTop = feed.scrollHeight;
+        }
+
+        function updateIcon(iconName) {
+            const container = document.getElementById('dynamic-icon-container');
+            const iconMap = {
+                'tick': '✅', 'cross': '❌', 'house': '🏠', 'money': '💰',
+                'mother': '🤰', 'baby': '👶', 'document': '📄', 'office': '🏛️',
+                'phone': '📞', 'warning': '⚠️'
+            };
+            container.textContent = iconMap[iconName] || '🧕';
+        }
+
+        function handleBinaryChoice(choice) {
+            const textResponse = choice === 'yes' ? 'Yes' : 'No';
+            appendFeed(textResponse, true);
+            processMockResponse(textResponse);
+        }
+
+        // Instant Local Mock Response Generator (No Quota limits or API keys needed)
+        function processMockResponse(input) {
+            let replyText = "తదుపరి దశ కోసం బటన్ నొక్కండి.";
+            let icon = "phone";
+
+            if (selectedScheme.includes('Maternity')) {
+                replyText = currentLang === 'English' ? "For maternity support, bring Aadhaar card and pregnancy card to Anganwadi center." : "గర్భివతి సహాయం కోసం ఆధార్ కార్డు, ఆసుపత్రి కార్డు అంగన్‌వాడీ కేంద్రంలో చూపించండి.";
+                icon = "mother";
+            } else if (selectedScheme.includes('Ration')) {
+                replyText = currentLang === 'English' ? "For free ration card, visit your nearest MeeSeva or civil supplies office." : "ఉచిత బియ్యం రేషన్ కార్డు కోసం మీసేవ లేదా తహశీల్దార్ కార్యాలయానికి వెళ్లండి.";
+                icon = "document";
+            } else {
+                replyText = currentLang === 'English' ? "Emergency helplines are available below. Tap 112 for immediate assistance." : "అత్యవసర సహాయం కోసం 112 నంబర్ కి కాల్ చేయండి.";
+                icon = "warning";
+            }
+
+            document.getElementById('assistant-greeting').textContent = replyText;
+            appendFeed(replyText, false);
+            updateIcon(icon);
+            document.getElementById('binary-choices').classList.remove('hidden');
+            speak(replyText);
+        }
+    </script>
+</body>
+</html>
